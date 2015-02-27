@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://evoting.nyp.edu.sg/xsd" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://evoting.nyp.edu.sg/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ax21="http://beans.evoting.nyp.edu.sg/xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://evoting.nyp.edu.sg/">
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://beans.evoting.nyp.edu.sg/xsd">
+            <xs:complexType name="ConstituencyPartyMappingBean">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="constituencyId" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="constituencyName" nillable="true" type="xs:string"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="partyBean" nillable="true" type="ax21:PartyBean"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="PartyBean">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="constituencyPartyMappingid" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="dateOfInception" nillable="true" type="xs:date"/>
+                    <xs:element minOccurs="0" name="partyId" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="partyName" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="partySymbol" nillable="true" type="xs:base64Binary"/>
+                    <xs:element minOccurs="0" name="selected" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="status" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema xmlns:ax22="http://beans.evoting.nyp.edu.sg/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://evoting.nyp.edu.sg/xsd">
+            <xs:import namespace="http://beans.evoting.nyp.edu.sg/xsd"/>
+            <xs:element name="fetchCandidates">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="constituencyId" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="fetchCandidatesResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax22:ConstituencyPartyMappingBean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="recordVote">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="constituencyPartyMappingBean" nillable="true" type="ax22:ConstituencyPartyMappingBean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="countVote">
+                <xs:complexType>
+                    <xs:sequence/>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="fetchCandidatesRequest">
+        <wsdl:part name="parameters" element="ns:fetchCandidates"/>
+    </wsdl:message>
+    <wsdl:message name="fetchCandidatesResponse">
+        <wsdl:part name="parameters" element="ns:fetchCandidatesResponse"/>
+    </wsdl:message>
+    <wsdl:message name="recordVoteRequest">
+        <wsdl:part name="parameters" element="ns:recordVote"/>
+    </wsdl:message>
+    <wsdl:message name="countVoteRequest">
+        <wsdl:part name="parameters" element="ns:countVote"/>
+    </wsdl:message>
+    <wsdl:portType name="EVotingServicePortType">
+        <wsdl:operation name="fetchCandidates">
+            <wsdl:input message="tns:fetchCandidatesRequest" wsaw:Action="urn:fetchCandidates"/>
+            <wsdl:output message="tns:fetchCandidatesResponse" wsaw:Action="urn:fetchCandidatesResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="recordVote">
+            <wsdl:input message="tns:recordVoteRequest" wsaw:Action="urn:recordVote"/>
+        </wsdl:operation>
+        <wsdl:operation name="countVote">
+            <wsdl:input message="tns:countVoteRequest" wsaw:Action="urn:countVote"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="EVotingServiceSoap11Binding" type="tns:EVotingServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="fetchCandidates">
+            <soap:operation soapAction="urn:fetchCandidates" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="recordVote">
+            <soap:operation soapAction="urn:recordVote" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="countVote">
+            <soap:operation soapAction="urn:countVote" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="EVotingServiceSoap12Binding" type="tns:EVotingServicePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="fetchCandidates">
+            <soap12:operation soapAction="urn:fetchCandidates" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="recordVote">
+            <soap12:operation soapAction="urn:recordVote" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="countVote">
+            <soap12:operation soapAction="urn:countVote" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="EVotingServiceHttpBinding" type="tns:EVotingServicePortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="fetchCandidates">
+            <http:operation location="fetchCandidates"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="recordVote">
+            <http:operation location="recordVote"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="countVote">
+            <http:operation location="countVote"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="EVotingService">
+        <wsdl:port name="EVotingServiceHttpSoap11Endpoint" binding="tns:EVotingServiceSoap11Binding">
+            <soap:address location="http://localhost:8080/axis2/services/EVotingService"/>
+        </wsdl:port>
+        <wsdl:port name="EVotingServiceHttpSoap12Endpoint" binding="tns:EVotingServiceSoap12Binding">
+            <soap12:address location="http://localhost:8080/axis2/services/EVotingService"/>
+        </wsdl:port>
+        <wsdl:port name="EVotingServiceHttpEndpoint" binding="tns:EVotingServiceHttpBinding">
+            <http:address location="http://localhost:8080/axis2/services/EVotingService"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
